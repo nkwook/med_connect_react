@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-import { WorkSpace, History } from 'pages'
+import { WorkSpace, History } from 'containers/Main'
 import { render } from '@testing-library/react';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './Main.css';
 
 import {
     Collapse,
@@ -36,7 +37,7 @@ class Main extends Component {
         return (
             <div>
                 <MainContainer>
-                    <Navbar color="light" light expand="md">
+                    <Navbar color="#0CCD55" light expand="md">
                         <NavbarBrand href="/main">MEDCONNECT</NavbarBrand>
                         <Collapse isOpen={true} navbar>
                             <Nav className="mr-auto" navbar>
