@@ -92,12 +92,6 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-var currentTitle = "현재 진료중 아님";
-const isPatient = true;
-const patientName = "이준명"
-if (isPatient) {
-    currentTitle = " 현재 진료 중: " + patientName + " 환자";
-}
 
 var imgStyle = {
     width: "128px",
@@ -141,62 +135,88 @@ export default function CurrentWrapper(props) {
     //     // findPatient()
     // }, []);
 
-    useEffect(() => {
-        findPatient()
+    const initPatient={
+        name: '',
+        NOKid: ''
 
-
-    }, []);
-
+    }
+    const initReport={
+        NOKid: '',
+        name: '', 
+        height: '',
+        weight: '',
+        past: '',
+        social: '',
+        family:''
+    }
+ 
     var preTable = [];
     const classes = useStyles();
     // this.setState({})
+
+
     const [isOpened, setOpened] = useState(false);
     const [selectedRow, setRow] = useState();
     let [tableData, setData] = useState(preTable);
-    const [nowPatient, setNow] = useState();
-    const [reportData, setReport] = useState();
+    const [nowPatient, setNow] = useState(initPatient);
+    const [reportData, setReport] = useState(initReport);
     const [isData, setIsData] = useState(false);
     const [tableLength, setLength] = useState(tableData.length)
     const [commentString, setComment] = useState()
+    const [entireData, setEntire]=useState()
 
     const [modal, setModal] = useState(false);
+    // setReport(initReport);
 
+    console.log(reportData);
 
+    var currentTitle = "현재 진료중 아님";
+    const isPatient = true;
+    if (isPatient) {
+        const patientName = nowPatient.name
+    
+        currentTitle = " 현재 진료 중: " + patientName + " 환자";
+    }
+    
+
+    useEffect(() => {
+        findPatient()
+      
+    },[]);
+
+    // useEffect(()=>{
+    //     findReport()
+    // }, [])
 
 
 
     const findPatient = async () => {
-
+        preTable=[]
         axios.get("/api/patients")
             .then((resolvedData) => {
                 const temp = resolvedData.data;
-
+                setEntire(temp)
                 temp.forEach((entry) => {
 
 
                     if (entry.onQueue) {
-                        // preTable.push({
-                        //     id: a,
-                        //     name: entry.name,
-                        //     age: entry.age,
-                        //     gender: entry.sex
-                        // })
-                        setData(tableData.concat({
-
+                        preTable.push({
                             NOKid: entry.NOKid,
                             name: entry.name,
                             age: entry.age,
                             gender: entry.sex
-                        }))
-
+                        })
+    
                     }
-                    if (entry.onTreat) {
-                        setNow(entry)
+                 
+                    // if (entry.onTreat) {
+                    //     setNow(entry)
 
-                    }
+                    // }
 
-                }
-                )
+                })
+                console.log(preTable);
+                setData(preTable);
                 // setData(preTable)
                 console.log(preTable);
                 // console.log(typeof(data))
@@ -206,29 +226,60 @@ export default function CurrentWrapper(props) {
     }
 
 
-    const findReport = async () => {
-        await axios.get("/api/reports/123")
+    const startTreat = async () => {
+
+        await axios.get("/api/reports/"+selectedRow)
             .then((resolvedData) => {
                 const temp = resolvedData.data;
+                console.log(temp)
                 setReport(temp);
                 setIsData(true);
                 // setData(tableData.splice(tableData.indexOf()))
                 var tableData2 = [];
+
                 tableData.forEach((entry) => {
-                    if (entry.NOKid == 123) {
-                        tableData2.concat(entry)
+                    if (entry.NOKid != selectedRow) {
+                        tableData2.push(entry)
+               
+                    }
+                    
+                })
+
+                setData(tableData2)
+                // })
+                entireData.forEach((e)=>{
+                    if(e.NOKid==selectedRow){
+                        setNow(e)
                     }
                 })
-                console.log(tableData2)
-                setData(tableData2)
+                // console.log(tableData2)
+                
                 setLength(tableData2.length)
                 setOpened(false)
+
+                axios.put("/api/patients/putTreat/"+selectedRow)
+                .then(
+                    console.log(selectedRow)
+                    // set
+                )
+                axios.put("/api/patients/offQueue/"+selectedRow)
+                .then(
+                    console.log(selectedRow)
+                    // set
+                )
+
                 
 
-                console.log(temp);
+                // console.log(temp);
                 // console.log(reportData);
             })
     }
+    
+    // useEffect(() => {
+    //     findPatient()
+      
+    // },[startTreat]);
+
 
     // const deQueue= async() =>{
     //     axiod.put("api/patients/:")
@@ -256,9 +307,11 @@ export default function CurrentWrapper(props) {
         axios.post("/api/comments/upload", newComment)
         toggle()
         setIsData(false)
-        }
-    
+        axios.put("/api/patients/offTreat/"+nowPatient.NOKid);
+        
 
+        }
+       
 
 
     console.log(reportData)
@@ -280,15 +333,19 @@ export default function CurrentWrapper(props) {
             console.log(selectedRow);
             if (selectedRow == row.NOKid) {
                 setOpened(!isOpened)
+                // setRow(row.NOKid)
             } else {
                 setOpened(true)
-                setRow(row.NOKid)
+                // setRow(row.NOKid)
             }
+            setRow(row.NOKid)
+        
             //아마 여기서 row.id를 잡아서 렌더를 시킬거임. 
             // patientdetail row={row.id} 하겠지
             //   setRow(row.id)
 
         }
+
     }
     // .bind(this)
 
@@ -317,7 +374,7 @@ export default function CurrentWrapper(props) {
                             <ExpansionPanelDetails className={classes.detail}>
                                 <Media>
                                     <Media left href="#">
-                                        <Media style={imgStyle} object src={'./patient.png'} alt="Generic placeholder image" />
+                                        <Media style={imgStyle} object src={'./'+nowPatient.NOKid+'.png'} alt="Generic placeholder image" />
                                     </Media>
                                     <Media body >
                                         <Media heading>
@@ -486,7 +543,7 @@ export default function CurrentWrapper(props) {
 
                 {isOpened ?
                     <PatientDetail className={classes.patient} row={selectedRow}
-                        onSubmit={findReport} />
+                        onSubmit={startTreat} />
 
 
 

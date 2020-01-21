@@ -144,6 +144,9 @@ export default function PatientDetail(props) {
     // const 
     const [reportData, setReport] = useState(preReport);
     const [patientData, setPatient] = useState(prePatient);
+    const [imageURL, setURL]=useState('./123.png');
+
+
 
     const findReport = async () => {
         axios.get("/api/reports/" + props.row)
@@ -163,6 +166,17 @@ export default function PatientDetail(props) {
                 // console.log(reportData);
             })
     }
+
+    // useEffect(()=>{
+        
+    if(patientData.NOKid == '12345' && !(imageURL =='./12345.png')){
+        console.log(999);
+        setURL('./12345.png')
+    }else if(patientData.NOKid=='1234' && !(imageURL=='./1234.png')){
+        setURL('./1234.png')
+    }
+
+    // },[])
 
 
     //tab
@@ -194,7 +208,7 @@ export default function PatientDetail(props) {
                 <ExpansionPanelDetails className={classes.detail}>
                     <Media>
                         <Media left href="#">
-                            <Media style={imgStyle} object src={'./chaewonkim.png'} alt="Generic placeholder image" />
+                            <Media style={imgStyle} object src={imageURL} alt="Generic placeholder image" />
                         </Media>
                         <Media body >
                             <Media heading>

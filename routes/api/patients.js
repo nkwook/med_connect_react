@@ -124,17 +124,43 @@ router.get("/onTreat", (req, res) => {
 
 
 //알림을 주기위해 상태변화시 db 수정
-router.put("/putQueue/:patient_id", (req, res)=>{
-    Patient.findOneAndUpdate({_id: req.params.patient_id}, {onQueue: true})
+router.put("/putQueue/:NOKid", (req, res)=>{
+    Patient.find({NOKid: req.params.NOKid})
+    .findOneAndUpdate({onQueue: true})
     .then(patient => res.send(patient))
     .catch(err =>res.status(500).send(err));
+
 })
 
-router.put("/putTreat/:patient_id", (req, res)=>{
-    Patient.findOneAndUpdate({_id: req.params.patient_id}, {onTreat: true, onQueue:false})
+router.put("/offQueue/:NOKid", (req, res)=>{
+    Patient.find({NOKid: req.params.NOKid})
+    .findOneAndUpdate({onQueue: false})
     .then(patient => res.send(patient))
     .catch(err =>res.status(500).send(err));
+
 })
+
+router.put("/putTreat/:NOKid", (req, res)=>{
+    Patient.find({NOKid: req.params.NOKid})
+    .findOneAndUpdate({onTreat: true})
+    .then(patient => res.send(patient))
+    .catch(err =>res.status(500).send(err));
+
+})
+
+router.put("/offTreat/:NOKid", (req, res)=>{
+    Patient.find({NOKid: req.params.NOKid})
+    .findOneAndUpdate({onTreat: false})
+    .then(patient => res.send(patient))
+    .catch(err =>res.status(500).send(err));
+
+})
+
+// router.put("/putTreat/:patient_id", (req, res)=>{
+//     Patient.findOneAndUpdate({_id: req.params.patient_id}, {onTreat: true, onQueue:false})
+//     .then(patient => res.send(patient))
+//     .catch(err =>res.status(500).send(err));
+// })
 
 
 
