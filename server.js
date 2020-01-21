@@ -5,7 +5,8 @@ const mongoose = require("mongoose");
 const port = process.env.PORT || 5000;
 const passport = require("passport");
 const users = require("./routes/api/users");
-const NOKs = require("./routes/api/NOKs");
+const patients=require("./routes/api/patients")
+// const NOKs = require("./routes/api/NOKs");
 const mongo = require('mongoose');
 const assert = require('assert');
 var url = 'mongodb://localhost:27017/test'
@@ -44,7 +45,8 @@ app.use(passport.initialize());
 require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
-app.use("/api/NOKs", NOKs);
+app.use("/api/patients", patients);
+// app.use("/api/NOKs", NOKs);
 // app.post("/api/users/register", function(req, res, next) {
 //         mongo.connect(url, function(err, db) {
 //         assert.equal(null. err);
