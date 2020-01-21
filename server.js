@@ -6,6 +6,8 @@ const port = process.env.PORT || 5000;
 const passport = require("passport");
 const users = require("./routes/api/users");
 const patients=require("./routes/api/patients")
+const reports=require("./routes/api/reports")
+
 // const NOKs = require("./routes/api/NOKs");
 const mongo = require('mongoose');
 const assert = require('assert');
@@ -46,6 +48,7 @@ require("./config/passport")(passport);
 // Routes
 app.use("/api/users", users);
 app.use("/api/patients", patients);
+app.use("/api/reports", reports);
 // app.use("/api/NOKs", NOKs);
 // app.post("/api/users/register", function(req, res, next) {
 //         mongo.connect(url, function(err, db) {

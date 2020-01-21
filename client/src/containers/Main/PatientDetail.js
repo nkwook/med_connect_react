@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -9,10 +9,43 @@ import { Container, Row, Col, Media, Button } from 'reactstrap';
 import styled from 'styled-components';
 import { CurrentTab } from 'components/Main/Detail'
 import Divider from '@material-ui/core/Divider';
-
-
+import axios from 'axios';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import PropTypes from 'prop-types';
+import Box from '@material-ui/core/Box';
 // import Patient from './patient.png';
 
+function TabPanel(props) {
+    const { children, value, index, ...other } = props;
+  
+    return (
+      <Typography
+        component="div"
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}
+      >
+        {value === index && <Box p={3}>{children}</Box>}
+      </Typography>
+    );
+  }
+  
+  TabPanel.propTypes = {
+    children: PropTypes.node,
+    index: PropTypes.any.isRequired,
+    value: PropTypes.any.isRequired,
+  };
+  
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -42,26 +75,26 @@ const useStyles = makeStyles(theme => ({
         left: '50%'
 
     },
-    button:{
+    button: {
         width: '250px'
-        
+
     },
-    button2:{
+    button2: {
         width: '250px',
         marginLeft: '50px'
-        }
+    }
 
 
 
 }));
 
 
-var currentTitle = "현재 진료중 아님";
+// var currentTitle = "현재 진료중 아님";
 const isPatient = true;
 const patientName = "김채원"
-if (isPatient) {
-    currentTitle = " 대기 중: " + patientName + " 환자";
-}
+// if (isPatient) {
+//     currentTitle = " 대기 중: " + patientName + " 환자";
+// }
 
 var imgStyle = {
     width: "128px",
@@ -76,75 +109,162 @@ const gender = "여"
 
 
 
+
 export default function PatientDetail(props) {
 
     const classes = useStyles();
-  
+
     //여기서 row props 받아서 데이터 불러오고 넣으면됨ㅋ
 
-    let pop=(e)=> {
+    let pop = (e) => {
         console.log('pop');
         console.log(props);
     }
-    
+    let onFormSubmit = (e) =>{
+        console.log(123);
+        e.preventDefault();
+      
+        props.onSubmit();
+    }
+
+    // console.log
+    var preReport = {};
+    var prePatient = {};
+
+    useEffect(() => {
+        findReport()
+        // findPatient()
+    }, []);
+
+    useEffect(() => {
+        // findReport()
+        findPatient()
+    }, []);
+
+    // const 
+    const [reportData, setReport] = useState(preReport);
+    const [patientData, setPatient] = useState(prePatient);
+
+    const findReport = async () => {
+        axios.get("/api/reports/" + props.row)
+            .then((resolvedData) => {
+                const temp = resolvedData.data;
+                setReport(temp);
+                console.log(temp);
+                // console.log(reportData);
+            })
+    }
+    const findPatient = async () => {
+        axios.get("/api/patients/nok/" + props.row)
+            .then((resolvedData) => {
+                const temp = resolvedData.data;
+                setPatient(temp);
+                console.log(temp);
+                // console.log(reportData);
+            })
+    }
 
 
+    //tab
+    const [value, setValue] = React.useState(2);
+    // const classes = useStyles();
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+  
+    }
+    console.log(reportData)
 
-    return (
+    console.log(patientData)
 
-        <div className={classes.root}>
+   
 
-            <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-                className={classes.expandBar}
-                
-            >
-                <Typography className={classes.heading}>  {currentTitle}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails className={classes.detail}>
-                <Media>
-                    <Media left href="#">
-                        <Media style={imgStyle} object src={'./chaewonkim.png'} alt="Generic placeholder image" />
-                    </Media>
-                    <Media body >
-                        <Media heading>
-                            {patientName} 님
+        return (
+
+            <div className={classes.root}>
+
+                <ExpansionPanelSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    id="panel1a-header"
+                    className={classes.expandBar}
+
+                >
+                    <Typography className={classes.heading}>  대기 중: {reportData.name} 환자</Typography>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails className={classes.detail}>
+                    <Media>
+                        <Media left href="#">
+                            <Media style={imgStyle} object src={'./chaewonkim.png'} alt="Generic placeholder image" />
+                        </Media>
+                        <Media body >
+                            <Media heading>
+                                {reportData.name} 님
                             </Media>
-                        <Container >
+                            <Container >
 
-                            <Row>
-                                {/* <Col md={{ span: 4 }}> <Wheal /> </Col> */}
-                                {/* <Col xs="2"> <Wheal /></Col> */}
-                                <Col md="3"> 생년월일: {birth}</Col>
-                                <Divider component="li" orientation="vertical" />
-                                <Col md="3"> 성별: {gender}</Col>
-                                <Divider component="li" orientation="vertical" />
-                                <Col md="4"> 보호자 연락처: {phoneNum} </Col>
+                                <Row>
+                                    {/* <Col md={{ span: 4 }}> <Wheal /> </Col> */}
+                                    {/* <Col xs="2"> <Wheal /></Col> */}
+                                    <Col md="3"> 나이: {patientData.age}</Col>
+                                    <Divider component="li" orientation="vertical" />
+                                    <Col md="3"> 성별: {patientData.sex}</Col>
+                                    <Divider component="li" orientation="vertical" />
+                                    <Col md="4"> 연락처: {patientData.phonenum} </Col>
 
-                            </Row>
-                        </Container>
+                                </Row>
+                                <Row>
+                                    <Col md="3"> 신장: {reportData.height}cm</Col>
+                                    <Divider component="li" orientation="vertical" />
+                                    <Col md="3"> 체중: {reportData.weight}kg</Col>
+
+                                </Row>
+
+                            </Container>
+                        </Media>
                     </Media>
-                </Media>
-                <br />
-                <CurrentTab>
-                </CurrentTab>
-
-                <br />
-                <div className={classes.div}>
-                    <Button className={classes.button}>
-                        진료 시작
-
-                    </Button>
                     <br />
-                    <Button className={classes.button2} onClick={pop} >
-                        대기 명단에서 제외
+                    <Paper square>
+                        <Tabs
+                            TabIndicatorProps={{ style: { background: '#689F38' } }}
+                            value={value}
+                            onChange={handleChange}
+                            aria-label="disabled tabs example"
+
+                        >
+                            <Tab label="과거력" />
+
+                            <Tab label="사회력" />
+
+                            <Tab label="가족력" />
+
+                        </Tabs>
+                        <TabPanel value={value} index={0}>
+                            {reportData.past}
+                        </TabPanel>
+                        <TabPanel value={value} index={1}>
+                            {reportData.social}
+                        </TabPanel>
+                        <TabPanel value={value} index={2}>
+                            {reportData.family}
+                        </TabPanel>
+                    </Paper>
+
+                    <br />
+                    <div className={classes.div}>
+                        <Button className={classes.button}
+                        onClick={onFormSubmit}
+                        >
+                            진료 시작
+    
                     </Button>
-                </div>
-            </ExpansionPanelDetails>
+                        <br />
+                        <Button className={classes.button2} onClick={pop} >
+                            대기 명단에서 제외
+                    </Button>
+                    </div>
+                </ExpansionPanelDetails>
 
-        </div>
+            </div>
 
-    )
-}
+        )
+    }

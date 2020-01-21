@@ -83,8 +83,8 @@ router.get("/image", (req,res) =>{
     });
 });
 
-router.get("/onQueue/:patient_id", (req, res) => {
-    Patient.find({_id: req.params.patient_id}, function(err, docs){
+router.get("/nok/:NOKid", (req, res) => {
+    Patient.findOne({NOKid: req.params.NOKid}, function(err, docs){
         if(!err){
             res.json(docs);
         }else{
@@ -93,8 +93,8 @@ router.get("/onQueue/:patient_id", (req, res) => {
     })
 })
 
-router.get("/onTreat/:patient_id", (req, res) => {
-    Patient.findOne({_id: req.params.patient_id}, function(err, docs){
+router.get("/onQueueName/:name", (req, res) => {
+    Patient.find({name: req.params.name}, function(err, docs){
         if(!err){
             res.json(docs);
         }else{
@@ -102,6 +102,26 @@ router.get("/onTreat/:patient_id", (req, res) => {
         }
     })
 })
+
+router.get("/onTreat", (req, res) => {
+    Patient.find({}, function(err, docs) {
+        if (!err){
+            // var myPosts = JSON.parse(JSON.stringify(docs));
+            // res.send(myPosts);
+            docs.forEach((entry)=>{
+                if(entry.onTreat){
+                    res.json(entry.NOKid);
+                }
+            })
+        }
+         else {
+            throw err;
+            res.send(err);
+        }
+    });
+})
+
+
 
 //알림을 주기위해 상태변화시 db 수정
 router.put("/putQueue/:patient_id", (req, res)=>{

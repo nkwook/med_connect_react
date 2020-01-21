@@ -2,18 +2,18 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 // Create Schema
 const UserSchema = new Schema({
-      name: {
+    name: {
         type: String,
         required: true
-      },
-      image:{
-          data: Buffer,
+    },
+    image: {
+        data: Buffer,
         contentType: String
-      },
-      NOKid: {
+    },
+    NOKid: {
         type: String,
         required: true
-      },
+    },
     relationship: {
         type: String,
         required: true
@@ -30,13 +30,13 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    onQueue:{ //대기중인가
+    onQueue: { //대기중인가
         type: Boolean,
         default: false
     },
-    onTreat:{ //진료중인가
+    onTreat: { //진료중인가
         type: Boolean,
-        default:false
+        default: false
     }
     //환자를 위한
     //json형식으로 문진표 들어올거임
