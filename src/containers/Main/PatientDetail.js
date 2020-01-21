@@ -17,9 +17,9 @@ import Divider from '@material-ui/core/Divider';
 const useStyles = makeStyles(theme => ({
     root: {
         width: '600px',
-       
+
         marginLeft: '100px'
-      
+
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),
@@ -35,7 +35,21 @@ const useStyles = makeStyles(theme => ({
     },
     expandBar2: {
         background: '#E9FFE2'
-    }
+    },
+    div: {
+        display: 'flex',
+        flexDirection: 'row',
+        left: '50%'
+
+    },
+    button:{
+        width: '250px'
+        
+    },
+    button2:{
+        width: '250px',
+        marginLeft: '50px'
+        }
 
 
 
@@ -53,7 +67,7 @@ var imgStyle = {
     height: "128px"
 };
 
-const birth = "98.06.11"
+const birth = "98.10.09"
 const phoneNum = "010-8272-8669"
 const gender = "여"
 
@@ -62,8 +76,19 @@ const gender = "여"
 
 
 export default function PatientDetail(props) {
+
     const classes = useStyles();
-    console.log(props.visible)
+  
+    //여기서 row props 받아서 데이터 불러오고 넣으면됨ㅋ
+
+    let pop=(e)=> {
+        console.log('pop');
+        console.log(props);
+    }
+    
+
+
+
     return (
 
         <div className={classes.root}>
@@ -73,7 +98,7 @@ export default function PatientDetail(props) {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
                 className={classes.expandBar}
-                visible={props.visible}
+                
             >
                 <Typography className={classes.heading}>  {currentTitle}</Typography>
             </ExpansionPanelSummary>
@@ -106,15 +131,18 @@ export default function PatientDetail(props) {
                 </CurrentTab>
 
                 <br />
-                <Button>
-                    진료 시작
-                </Button>
-                <Button>
-                    제거
-                </Button>
-                
+                <div className={classes.div}>
+                    <Button className={classes.button}>
+                        진료 시작
+
+                    </Button>
+                    <br />
+                    <Button className={classes.button2} onClick={pop} >
+                        대기 명단에서 제외
+                    </Button>
+                </div>
             </ExpansionPanelDetails>
-       
+
         </div>
 
     )

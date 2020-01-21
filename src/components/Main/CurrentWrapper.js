@@ -95,7 +95,7 @@ export default function CurrentWrapper() {
     // this.setState({})
     const [isOpened, setOpened] = useState(false);
     const [selectedRow, setRow] = useState();
-
+    const [tableData, setData] = useState(data);
     // const parentCallback = (dataFromChild) => {
     //     this.setState({
     //         isOpened: dataFromChild
@@ -120,6 +120,9 @@ export default function CurrentWrapper() {
                 setOpened(true)
                 setRow(row.id)
             }
+
+            //아마 여기서 row.id를 잡아서 렌더를 시킬거임. 
+            // patientdetail row={row.id} 하겠지
             //   setRow(row.id)
 
         }
@@ -191,8 +194,9 @@ export default function CurrentWrapper() {
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails style={{ marginLeft: '100px', marginTop: '10px' }}>
                             <div>
-                                <BootstrapTable data={data}
+                                <BootstrapTable data={tableData}
                                     options={options}
+                                    
                                 >
                                     <TableHeaderColumn isKey dataField='id'
                                         dataAlign='center'
@@ -242,7 +246,7 @@ export default function CurrentWrapper() {
 
                 <div>
                     {isOpened ? 
-                    <PatientDetail className={classes.patient}/> 
+                    <PatientDetail className={classes.patient} row={selectedRow} /> 
                     
                     
                     
