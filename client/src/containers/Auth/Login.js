@@ -3,8 +3,8 @@ import { AuthContent, InputWithLabel, AuthButton, RightAlignedLink } from 'compo
 import { Link } from 'react-router-dom';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { loginUser } from "../../actions/authActions";
-// import classnames from "classnames";
+import { loginUser } from "../../actions/authActions";
+import classnames from "classnames";
 
 
 class Login extends Component {
@@ -13,18 +13,18 @@ class Login extends Component {
   constructor() {
     super();
     this.state = {
-      email: "",
+      id: "",
       password: "",
       errors: {}
     };
   }
 
-  // componentDidMount() {
-  //   // If logged in and user navigates to Login page, should redirect them to dashboard
-  //   if (this.props.auth.isAuthenticated) {
-  //     this.props.history.push("/main");
-  //   }
-  // }
+  componentDidMount() {
+    // If logged in and user navigates to Login page, should redirect them to dashboard
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/main");
+    }
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.auth.isAuthenticated) {
@@ -43,14 +43,16 @@ class Login extends Component {
 
   onSubmit = e => {
     e.preventDefault();
+
     const userData = {
-      email: this.state.email,
+      id: this.state.id,
       password: this.state.password
     };
     // console.log(1326);
-    // this.props.loginUser(userData);
+
     console.log(userData);
-    this.props.history.push("/main");
+    this.props.loginUser(userData);
+    //this.props.history.push("/main");
   };
 
 
@@ -66,11 +68,11 @@ class Login extends Component {
           onChange={this.onChange}
           value={this.state.id}
           error={errors.id}
-          id="email"
-          type="email"
-          // className={classnames("", {
-          //   invalid: errors.email || errors.emailnotfound
-          // })}
+          id="id"
+          type="id"
+          className={classnames("", {
+            invalid: errors.email || errors.emailnotfound
+          })}
         />
         <InputWithLabel
           label="비밀번호"
@@ -82,9 +84,9 @@ class Login extends Component {
           error={errors.password}
           id="password"
           type="password"
-          // className={classnames("", {
-          //   invalid: errors.password || errors.passwordincorrect
-          // })}
+          className={classnames("", {
+            invalid: errors.password || errors.passwordincorrect
+          })}
         />
         <Link to="/main">
           <AuthButton onClick={this.onSubmit}>Login</AuthButton>
@@ -107,8 +109,7 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default Login;
-// export default connect(
-//   mapStateToProps,
-//   // { loginUser }
-// )(Login);
+export default connect(
+  mapStateToProps,
+   { loginUser }
+)(Login);

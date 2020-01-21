@@ -3,8 +3,8 @@ import { Link, withRouter } from "react-router-dom";
 import { AuthContent, InputWithLabel, AuthButton, RightAlignedLink } from 'components/Auth';
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { registerUser } from "../../actions/authActions";
-// import classnames from "classnames";
+import { registerUser } from "../../actions/authActions";
+import classnames from "classnames";
 
 
 
@@ -13,20 +13,22 @@ class Register extends Component {
   constructor() {
     super();
     this.state = {
-      username: "",
-      email: "",
+      id: "",
       password: "",
-      password2: "",
-      errors: {}
+      hospitalname: "",
+      major: "",
+      licensenum: "",
+      password2:"",
+      errors: {}  
     };
   }
 
-  // componentDidMount() {
-  //   // If logged in and user navigates to Register page, should redirect them to dashboard
-  //   if (this.props.auth.isAuthenticated) {
-  //     this.props.history.push("/main");
-  //   }
-  // }
+  componentDidMount() {
+    // If logged in and user navigates to Register page, should redirect them to dashboard
+    if (this.props.auth.isAuthenticated) {
+      this.props.history.push("/main");
+    }
+  }
 
 
   componentWillReceiveProps(nextProps) {
@@ -41,30 +43,32 @@ class Register extends Component {
   onChange = e => {
     this.setState({ [e.target.id]: e.target.value });
   };
-//   onSubmit = e => {
-//     e.preventDefault();
-//     const newUser = {
-//       username: this.state.username,
-//       email: this.state.email,
-//       password: this.state.password,
-//       password2: this.state.password2
-//     };
-//     console.log(newUser);
-//     this.props.registerUser(newUser, this.props.history);
-//   };
-
-  onSubmit= e=>{
+  onSubmit = e => {
     e.preventDefault();
     const newUser = {
-              username: this.state.username,
-              email: this.state.email,
-              password: this.state.password,
-              password2: this.state.password2
-            };
-            console.log(newUser);
-            this.props.history.push("/auth/login");
+      id: this.state.id,
+      password: this.state.password,
+      hospitalname: this.state.hospitalname,
+      major: this.state.major,
+      licensenum: this.state.licensenum
+    };
+    console.log(newUser);
+    this.props.registerUser(newUser, this.props.history);
+  };
 
-  }
+  // onSubmit= e=>{
+  //   e.preventDefault();
+  //   const newUser = {
+  //             hospitalname: this.state.hospitalname,
+  //             major: this.state.major,
+  //             licensenum: this.state.licensenum,
+  //             id: this.state.id,
+  //             password: this.state.password
+  //           };
+  //           console.log(newUser);
+  //           this.props.history.push("/auth/login");
+
+  // }
 
   render() {
     console.log("register");
@@ -75,16 +79,16 @@ class Register extends Component {
 
           <InputWithLabel
             label="병원 명"
-            name="hospital"
+            name="hospitalname"
             placeholder="병원 명"
             onChange={this.onChange}
             value={this.state.hospital}
             error={errors.hospital}
-            id="hospital"
-            type="hospital"
-            // className={classnames("", {
-            //   invalid: errors.username
-            // })}
+            id="hospitalname"
+            type="hospitalname"
+            className={classnames("", {
+              invalid: errors.username
+            })}
           />
           <InputWithLabel
             label="전공"
@@ -95,22 +99,22 @@ class Register extends Component {
             error={errors.major}
             id="major"
             type="major"
-            // className={classnames("", {
-            //   invalid: errors.username
-            // })}
+            className={classnames("", {
+              invalid: errors.username
+            })}
           />
                    <InputWithLabel
             label="면허 번호"
-            name="license"
+            name="licensenum"
             placeholder="면허 번호"
             onChange={this.onChange}
             value={this.state.license}
             error={errors.license}
-            id="license"
-            type="license"
-            // className={classnames("", {
-            //   invalid: errors.username
-            // })}
+            id="licensenum"
+            type="licensenum"
+            className={classnames("", {
+              invalid: errors.username
+            })}
           />
           <InputWithLabel
             label="아이디"
@@ -119,11 +123,11 @@ class Register extends Component {
             onChange={this.onChange}
             value={this.state.id}
             error={errors.id}
-            id="email"
-            type="text"
-            // className={classnames("", {
-            //   invalid: errors.email
-            // })}
+            id="id"
+            type="id"
+            className={classnames("", {
+              invalid: errors.email
+            })}
 
           />
 
@@ -137,9 +141,9 @@ class Register extends Component {
             error={errors.password}
             id="password"
             type="password"
-            // className={classnames("", {
-            //   invalid: errors.password
-            // })}
+            className={classnames("", {
+              invalid: errors.password
+            })}
 
           />
           <InputWithLabel
@@ -151,9 +155,9 @@ class Register extends Component {
             value={this.state.password2}
             error={errors.password2}
             id="password2"
-            // className={classnames("", {
-            //   invalid: errors.password2
-            // })}
+            className={classnames("", {
+              invalid: errors.password2
+            })}
 
           />
           <AuthButton onClick={this.onSubmit}>회원가입</AuthButton>
@@ -177,8 +181,8 @@ const mapStateToProps = state => ({
   newUser: state.newUser
 });
 
-export default Register;
-// export default connect(
-//   mapStateToProps,
-//   // { registerUser }
-// )(withRouter(Register));
+// export default Register;
+export default connect(
+  mapStateToProps,
+  { registerUser }
+)(withRouter(Register));

@@ -1,0 +1,47 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\q\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js dev
+
+PATH: 
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\q\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\Git\cmd;C:\Program Files\MongoDB\Server\4.2\bin;C:\Program Files\nodejs;C:\Users\q\AppData\Local\Microsoft\WindowsApps;C:\Users\q\AppData\Local\GitHubDesktop\bin;C:\Program Files\Java\jdk-13.0.1\bi;C:\Program Files\Java\jdk-13.0.1\";C:\Program Files\Bandizip;C:\Users\q\AppData\Roaming\npm;C:\Users\q\AppData\Local\atom\bin;C:\Users\q\AppData\Local\Programs\Microsoft VS Code\bin
+
+Yarn version: 
+  1.21.1
+
+Node version: 
+  12.14.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: C:\Users\q\.vscode\med_connect_react\package.json: Unexpected token } in JSON at position 611
+      at JSON.parse (<anonymous>)
+      at C:\Users\q\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (C:\Users\q\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:310:30)
+      at C:\Users\q\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "med_connect_react",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/nkwoOK/med_connect_react.git",
+    "author": "ikevin98 <59246328+ikevin98@users.noreply.github.com>",
+    "license": "MIT",
+    "scripts": {
+      "client": "cd client && yarn start",
+      "server": "nodemon server.js",
+      "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
+      "start": "cross-env NODE_PATH=src react-scripts start",
+      "build": "cross-env NODE_PATH=src react-scripts build",
+      "test": "react-scripts test --env=jsdom",
+      "eject": "react-scripts eject"
+    },
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
