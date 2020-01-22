@@ -267,6 +267,8 @@ export default function CurrentWrapper(props) {
                     console.log(selectedRow)
                     // set
                 )
+                axios.put("/api/patients/putNotice/"+selectedRow)
+                
 
                 
 
@@ -308,7 +310,8 @@ export default function CurrentWrapper(props) {
         toggle()
         setIsData(false)
         axios.put("/api/patients/offTreat/"+nowPatient.NOKid);
-        
+        axios.put("/api/patients/putNotice/"+nowPatient.NOKid);
+                
 
         }
        
@@ -417,6 +420,8 @@ export default function CurrentWrapper(props) {
 
                                         <Tab label="가족력" />
 
+                                        <Tab label="보호자의 말" />
+                                        
                                     </Tabs>
                                     <TabPanel value={value} index={0}>
                                         {reportData.past}
@@ -427,6 +432,10 @@ export default function CurrentWrapper(props) {
                                     <TabPanel value={value} index={2}>
                                         {reportData.family}
                                     </TabPanel>
+                                    <TabPanel value={value} index={2}>
+                                        {reportData.NOKcomment}
+                                    </TabPanel>
+
                                 </Paper>
 
 

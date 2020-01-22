@@ -32,7 +32,7 @@ router.post("/upload", (req, res) => {
 
 
 router.get("/:NOKid", (req, res) => {
-    Comment.findOne({NOKid: req.params.NOKid}, function(err, docs){
+    Comment.find({NOKid: req.params.NOKid}, function(err, docs){
         if(!err){
             res.json(docs);
         }else{
@@ -41,3 +41,4 @@ router.get("/:NOKid", (req, res) => {
     })
 })
 module.exports = router;
+

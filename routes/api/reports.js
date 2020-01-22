@@ -24,7 +24,8 @@ router.post("/upload", (req, res) => {
         weight: req.body.weight,
         past: req.body.past,
         social: req.body.social,
-        family: req.body.family
+        family: req.body.family,
+        NOKcomment: req.body.NOKcomment
 
     })
 
@@ -47,4 +48,15 @@ router.get("/:NOKid", (req, res) => {
         }
     })
 })
+
+router.put("/reserve/:NOKid", (req, res) => {
+    Report.find({NOKid: req.params.NOKid})
+    .findOneAndUpdate({NOKcomment: req.body.NOKcomment})
+    .then(report => res.send(report))
+    .catch(err =>res.status(500).send(err));
+    })
+
+
+
+
 module.exports = router;

@@ -16,7 +16,7 @@ const UserSchema = new Schema({
     },
     patientid: {
         type: String,
-        required: true
+        required: false
     }//보호자를 위한
 });
 module.exports = NOK = mongoose.model("NOKs", UserSchema);

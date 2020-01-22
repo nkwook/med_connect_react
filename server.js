@@ -9,7 +9,7 @@ const patients=require("./routes/api/patients")
 const reports=require("./routes/api/reports")
 const comments=require("./routes/api/comments")
 
-// const NOKs = require("./routes/api/NOKs");
+const NOKs = require("./routes/api/NOKs");
 const mongo = require('mongoose');
 const assert = require('assert');
 var url = 'mongodb://localhost:27017/test'
@@ -51,6 +51,7 @@ app.use("/api/users", users);
 app.use("/api/patients", patients);
 app.use("/api/reports", reports);
 app.use("/api/comments", comments);
+app.use("/api/NOKs", NOKs);
 
 // app.use("/api/NOKs", NOKs);
 // app.post("/api/users/register", function(req, res, next) {

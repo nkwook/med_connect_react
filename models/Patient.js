@@ -37,6 +37,10 @@ const UserSchema = new Schema({
     onTreat: { //진료중인가
         type: Boolean,
         default: false
+    },
+    onNotice:{
+        type: Boolean,
+        default: false
     }
     //환자를 위한
     //json형식으로 문진표 들어올거임

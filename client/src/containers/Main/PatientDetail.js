@@ -172,7 +172,7 @@ export default function PatientDetail(props) {
     if(patientData.NOKid == '12345' && !(imageURL =='./12345.png')){
         console.log(999);
         setURL('./12345.png')
-    }else if(patientData.NOKid=='1234' && !(imageURL=='./1234.png')){
+    }else if(patientData.NOKid== '1234' && !(imageURL=='./1234.png')){
         setURL('./1234.png')
     }
 
@@ -251,6 +251,8 @@ export default function PatientDetail(props) {
 
                             <Tab label="가족력" />
 
+                            {/* <Tab label="보호자의 말" /> */}
+
                         </Tabs>
                         <TabPanel value={value} index={0}>
                             {reportData.past}
@@ -261,6 +263,9 @@ export default function PatientDetail(props) {
                         <TabPanel value={value} index={2}>
                             {reportData.family}
                         </TabPanel>
+                        {/* <TabPanel value={value} index={2}>
+                            {reportData.family}
+                        </TabPanel> */}
                     </Paper>
 
                     <br />

@@ -9,7 +9,7 @@ const keys = require("../../config/keys");
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 // Load NOK model
-const NOK = require("../../models/NOK");
+const NOKs = require("../../models/NOK");
 const Patient = require("../../models/Patient");
 
 var url = 'mongodb://localhost:27017/test'

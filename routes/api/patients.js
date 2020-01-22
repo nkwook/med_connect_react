@@ -124,6 +124,22 @@ router.get("/onTreat", (req, res) => {
 
 
 //알림을 주기위해 상태변화시 db 수정
+router.put("/putNotice/:NOKid", (req, res)=>{
+    Patient.findOne({NOKid: req.params.NOKid})
+    .findOneAndUpdate({onNotice: true})
+    .then(patient => res.send(patient))
+    .catch(err =>res.status(500).send(err));
+
+})
+
+router.put("/offNotice/:NOKid", (req, res)=>{
+    Patient.findOne({NOKid: req.params.NOKid})
+    .findOneAndUpdate({onNotice: false})
+    .then(patient => res.send(patient))
+    .catch(err =>res.status(500).send(err));
+
+})
+
 router.put("/putQueue/:NOKid", (req, res)=>{
     Patient.find({NOKid: req.params.NOKid})
     .findOneAndUpdate({onQueue: true})
