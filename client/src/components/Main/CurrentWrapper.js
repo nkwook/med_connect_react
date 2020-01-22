@@ -432,7 +432,7 @@ export default function CurrentWrapper(props) {
                                     <TabPanel value={value} index={2}>
                                         {reportData.family}
                                     </TabPanel>
-                                    <TabPanel value={value} index={2}>
+                                    <TabPanel value={value} index={3}>
                                         {reportData.NOKcomment}
                                     </TabPanel>
 
