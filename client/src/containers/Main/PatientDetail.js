@@ -144,7 +144,7 @@ export default function PatientDetail(props) {
     // const 
     const [reportData, setReport] = useState(preReport);
     const [patientData, setPatient] = useState(prePatient);
-    const [imageURL, setURL]=useState('./123.png');
+    const [imageURL, setURL]=useState('./junmyong.png');
 
 
 

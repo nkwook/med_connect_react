@@ -13,7 +13,7 @@ router.post("/upload", (req, res)=>{
         }else{
             // const imgPath=req.body.imageURL;
             console.log(12);
-            const imagePath="client/public/patient.png"
+            const imagePath="client/public/junmyong.png"
             // const newImage=new Image({
             //     data: fs.readFileSync(imagePath),
             //     contentType: 'image/png'
